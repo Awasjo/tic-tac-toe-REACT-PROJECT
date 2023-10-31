@@ -2,6 +2,15 @@ import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import { useState } from "react";
 import Log from "./components/Log";
+import { WINNING_COMBINATIONS } from "./winning-combinations";
+
+// import { useState } from "react";
+
+const initialGameBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
 
 //helper function
 
@@ -13,6 +22,14 @@ function deriveActivePlayer(gameTurns){
   return currentPlayer
 }
 
+// //helper constant 
+// const WINNING_COMBINATIONS = [
+//   [
+//     {row:0,col:0},
+//     {row:0,col:1},
+//     {row:0,col:2},
+//   ]
+// ]
 
 function App() {
   //const [activePlayer, setActivePlayer] = useState("X"); //this line is connected to the gameboard and player EJX files, this is lifting the state up which is a react concept
@@ -20,6 +37,29 @@ function App() {
 
   //instead of having an active player state which i commented out above, we can add derived state written below 
   const activePlayer = deriveActivePlayer(gameTurns)
+
+  //initial game board
+  let gameBoard = initialGameBoard;
+
+  for (const turn of gameTurns) {
+    //want to extract the info from the turn that just occured
+    const { square, player } = turn; //these are two properrties from the app component
+    const { row, col } = square;
+
+    gameBoard[row][col] = player;
+  }
+
+  let winner;
+  //going through all the winning combinations whenever this app re-renders
+  for(const combination of WINNING_COMBINATIONS){
+    const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column]
+    const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column]
+    const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column]
+
+    if(firstSquareSymbol && firstSquareSymbol == secondSquareSymbol && firstSquareSymbol == thirdSquareSymbol){
+      winner = firstSquareSymbol
+    }
+  }
 
   function handleSelectedSquare(rowIndex, colIndex) {
     // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
@@ -58,10 +98,11 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
+        {winner && <p>You won, {winner}!</p>}
         <GameBoard
           onSelectSquare={handleSelectedSquare}
           // activePlayerSymbol={activePlayer}
-          turns={gameTurns}
+          board={gameBoard}
         />
       </div>
       <Log turns={gameTurns} />

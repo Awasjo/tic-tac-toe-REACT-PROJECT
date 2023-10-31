@@ -1,27 +1,27 @@
-// import { useState } from "react";
+// // import { useState } from "react";
 
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
+// const initialGameBoard = [
+//   [null, null, null],
+//   [null, null, null],
+//   [null, null, null],
+// ];
 
 //the change that we want TODO here is to lift up the game board information so that we can use it in the log ejx, refer to the app component
 
 export default function GameBoard({
   onSelectSquare /*activePlayerSymbol*/,
-  turns,
+  board,
 }) {
-  //initial game board
-  let gameBoard = initialGameBoard;
+//   //initial game board
+//   let gameBoard = initialGameBoard;
 
-  for (const turn of turns) {
-    //want to extract the info from the turn that just occured
-    const { square, player } = turn; //these are two properrties from the app component
-    const { row, col } = square;
+//   for (const turn of turns) {
+//     //want to extract the info from the turn that just occured
+//     const { square, player } = turn; //these are two properrties from the app component
+//     const { row, col } = square;
 
-    gameBoard[row][col] = player;
-  }
+//     gameBoard[row][col] = player;
+//   }
 
   //   const [gameBoard, setGameBoard] = useState(initialGameBoard)
 
@@ -38,7 +38,7 @@ export default function GameBoard({
 
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {board.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
