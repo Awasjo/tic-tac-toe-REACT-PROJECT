@@ -40,7 +40,7 @@ function App() {
   const activePlayer = deriveActivePlayer(gameTurns)
 
   //initial game board
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map(array=>[...array])]; //changed this so that we can make a deep copy of the initial array, so that when we rematch, we get the original nul null array
 
   for (const turn of gameTurns) {
     //want to extract the info from the turn that just occured
@@ -87,6 +87,10 @@ function App() {
     });
   }
 
+  function handleRestart(){
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -102,7 +106,7 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        {(winner || hasDraw) && <GameOver winner={winner}/>}
+        {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
         <GameBoard
           onSelectSquare={handleSelectedSquare}
           // activePlayerSymbol={activePlayer}
