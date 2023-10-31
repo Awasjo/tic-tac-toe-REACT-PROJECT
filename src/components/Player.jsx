@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol,isActive }) {
+export default function Player({ initialName, symbol,isActive, onChangeName }) {
   const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -8,7 +8,10 @@ export default function Player({ initialName, symbol,isActive }) {
   //if we did it the non best practice way, react will schedule it to change the state, with a function its change right away.
   function handleEditClick() {
     setIsEditing((editing) => !editing);
-    console.log(isEditing)
+    // console.log(isEditing)
+    if (isEditing){
+        onChangeName(symbol, playerName)
+    }
   }
 
   //the object event is describing the event that happened when the change even occurs
