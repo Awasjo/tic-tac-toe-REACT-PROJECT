@@ -43,7 +43,10 @@ export default function GameBoard({
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                <button
+                  onClick={() => onSelectSquare(rowIndex, colIndex)}
+                  disabled={playerSymbol !== null} //disable clicking the same button if the button was clicked previously
+                >
                   {playerSymbol}
                 </button>
               </li>
